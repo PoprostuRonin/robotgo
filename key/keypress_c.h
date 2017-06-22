@@ -97,11 +97,6 @@ void win32KeyEvent(int key, MMKeyFlags flags)
 		}
 	}
 
-	/* Set the scan code for keyup */
-	if ( flags & KEYEVENTF_KEYUP ) {
-		scan |= 0x80;
-	}
-
 	keybd_event(key, scan, flags, 0);
 }
 #endif
@@ -134,7 +129,7 @@ void toggleKeyCode(MMKeyCode code, const bool down, MMKeyFlags flags)
 		CFRelease(keyEvent);
 	}
 #elif defined(IS_WINDOWS)
-	const DWORD dwFlags = down ? 0 : KEYEVENTF_KEYUP;
+	const DWORD dwFlags = down ? 0 : 0x0002;
 
 	/* Parse modifier keys. */
 	if (flags & MOD_META) WIN32_KEY_EVENT_WAIT(K_META, dwFlags);
